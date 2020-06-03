@@ -10,4 +10,9 @@ class Sake extends Model
     {
         return $this->belongsTo('App\Category');
     }
+
+    public function review()
+    {
+        return $this->hasMany('App\Review');
+    }
 }
