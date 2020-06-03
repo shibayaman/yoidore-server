@@ -10,4 +10,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Sake');
     }
+
+    public function parameter()
+    {
+        return $this->hasMany('App\Parameter');
+    }
 }

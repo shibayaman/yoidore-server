@@ -21,5 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resources([
     "sake" => "SakeController",
     "category" => "CategoryController",
-    "review" => "ReviewController"
+    "review" => "ReviewController",
+    "parameter" => "ParameterController"
 ]);
