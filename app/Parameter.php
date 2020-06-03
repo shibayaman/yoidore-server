@@ -15,4 +15,9 @@ class Parameter extends Model
     {
         return $this->belongsTo('App\Category');
     }
+
+    public function review_detail()
+    {
+        return $this->hasMany('App\ReviewDetail');
+    }
 }

@@ -22,5 +22,6 @@ Route::resources([
     "sake" => "SakeController",
     "category" => "CategoryController",
     "review" => "ReviewController",
-    "parameter" => "ParameterController"
+    "parameter" => "ParameterController",
+    "reviewDetail" => "ReviewDetailController"
 ]);

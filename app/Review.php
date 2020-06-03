@@ -15,4 +15,9 @@ class Review extends Model
     {
         return $this->belongsTo('App\Sake');
     }
+
+    public function review_detail()
+    {
+        return $this->hasMany('App\ReviewDetail');
+    }
 }
