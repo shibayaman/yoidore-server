@@ -15,12 +15,13 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('sake_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('sake_id')->constrained();
             $table->integer('score');
             $table->string('tastenote', 300);
             $table->string('best_nibble', 100);
             $table->timestamps();
+
             $table->unique(['user_id', 'sake_id']);
         });
     }

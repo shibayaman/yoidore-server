@@ -15,8 +15,8 @@ class CreateSakesTable extends Migration
     {
         Schema::create('sakes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('category_id');
-            $table->string('name');
+            $table->foreignId('category_id');
+            $table->string('name')->unique();
             $table->string('image_url');
             $table->timestamps();
         });
