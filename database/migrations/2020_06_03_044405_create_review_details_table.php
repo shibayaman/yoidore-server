@@ -15,8 +15,12 @@ class CreateReviewDetailsTable extends Migration
     {
         Schema::create('review_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parameter_id')->constrained();
-            $table->foreignId('review_id')->constrained();
+            $table->foreignId('parameter_id')
+                ->constrained()
+                ->onDelete('cascade');
+            $table->foreignId('review_id')
+                ->constrained()
+                ->onDelete('cascade');
             $table->integer('score');
             $table->timestamps();
         });
