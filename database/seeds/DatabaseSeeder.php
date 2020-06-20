@@ -38,7 +38,23 @@ class DatabaseSeeder extends Seeder
 
         $reviews = $this->createRelatedObjects(Review::class, $users, $sakes);
 
-        $this->createRelatedObjects(ReviewDetail::class, $reviews, $parameters);
+        foreach ($reviews as $review) {
+            $sake = $sakes->find($review->sake_id);
+            $categoryId = $sake->category_id;
+            $userId = $review->user_id;
+
+            $parametersOfReview = $parameters->filter(function ($parameter) use ($userId, $categoryId) {
+                return $parameter->user_id === $userId
+                    && $parameter->category_id === $categoryId;
+            });
+
+            foreach ($parametersOfReview as $parameter) {
+                factory(ReviewDetail::class)->create([
+                    'parameter_id' => $parameter->id,
+                    'review_id' => $review->id
+                ]);
+            }
+        }
     }
 
     private function createRelatedObjects($class, $parents, $children, $amount = 1)
