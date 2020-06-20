@@ -17,7 +17,6 @@ class CreateSakesTable extends Migration
             $table->id();
             $table->foreignId('category_id');
             $table->string('name')->unique();
-            $table->string('image_url');
             $table->timestamps();
         });
     }

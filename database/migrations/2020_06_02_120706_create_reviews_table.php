@@ -22,6 +22,7 @@ class CreateReviewsTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->integer('score');
+            $table->string('image_url');
             $table->string('tastenote', 300);
             $table->string('best_nibble', 100);
             $table->timestamps();

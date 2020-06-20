@@ -10,6 +10,7 @@ $factory->define(Review::class, function (Faker $faker) {
         'user_id' => 1,
         'sake_id' => 1,
         'score' => rand(1, 5),
+        'image_url' => 'http://placecorgi.com/250',
         'tastenote' => $faker->sentence(15),
         'best_nibble' => $faker->word
     ];
