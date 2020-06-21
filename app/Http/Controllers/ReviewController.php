@@ -4,16 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Review;
+use Auth;
 
 class ReviewController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        return Review::all();
+        $this->middleware('auth')->except('publicNotes');
     }
 
-    public function show($id)
+    public function index()
     {
-        return Review::find($id);
+        $user = Auth::user();
+        return Review::where('user_id', $user->id)->get();
+    }
+
+    public function show(Review $review)
+    {
+        $this->authorize('view', $review);
+        return $review;
+    }
+
+    public function publicNotes()
+    {
+        //酒ごとのコメント、パブリックなものだけ
     }
 }

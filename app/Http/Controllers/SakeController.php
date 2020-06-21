@@ -7,13 +7,19 @@ use App\Sake;
 
 class SakeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $categoryId = $request->query('category_id');
+
+        if ($categoryId) {
+            return Sake::where('category_id', $categoryId)->get();
+        }
+
         return Sake::all();
     }
 
-    public function show($id)
+    public function show(Sake $sake)
     {
-        return Sake::find($id);
+        return $sake;
     }
 }
