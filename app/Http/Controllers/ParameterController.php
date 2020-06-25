@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreParameter;
 use App\Parameter;
 use Auth;
+use DB;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Http\Request;
 
 class ParameterController extends Controller
 {
@@ -23,6 +26,31 @@ class ParameterController extends Controller
             'user_id' => $user->id,
             'category_id' => $categoryId
         ])->get();
+
+        return $parameters;
+    }
+
+    public function store(StoreParameter $request)
+    {
+        $categoryId = $request->input('category_id');
+
+        foreach ($request->input('parameters') as $parameter) {
+            $parameterDatas[] = [
+                'user_id' => Auth::user()->id,
+                'category_id' => $request->input('category_id'),
+                'name' => $parameter['name'],
+                'description' => $parameter['description'] ?? ''
+            ];
+        }
+
+        //insertGetId method can do bulk insert but only returns final inserted id.
+        //going to send up to 5 insert queries in order to return all the inserted models with their id.
+        $parameters = DB::transaction(function () use ($parameterDatas) {
+            foreach ($parameterDatas as $parameterData) {
+                $parameters[] = Parameter::create($parameterData);
+            }
+            return $parameters;
+        });
 
         return $parameters;
     }
