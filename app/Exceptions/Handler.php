@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -58,10 +59,13 @@ class Handler extends ExceptionHandler
  
             if ($exception instanceof AuthenticationException) {
                 return response()->json(['message' => $exception->getMessage()], 401);
+            } elseif ($exception instanceof ValidationException) {
+                return response()->json([
+                    'message' => $exception->getMessage(),
+                    'errors' => $exception->errors()
+                ], 422);
             }
-            // TODO elseif($exception instance of ValidationException) {}
-            
-            
+
             return $this->prepareJsonResponse($request, $exception);
         }
 
