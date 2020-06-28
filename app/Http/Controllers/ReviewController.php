@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreReview;
 use App\Review;
+use App\ReviewDetail;
 use Auth;
+use DB;
+use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
@@ -28,5 +31,27 @@ class ReviewController extends Controller
     public function publicNotes()
     {
         //酒ごとのコメント、パブリックなものだけ
+    }
+
+    public function store(StoreReview $request)
+    {
+        $reviewData = $request->validated();
+
+        $reviewData['user_id'] = Auth::id();
+
+        // if($reviewData->hasFile('image')) {
+        //     save image
+        // }
+
+        $reviewData['image_url'] = 'noimage.jpg';
+
+        $review = DB::transaction(function () use ($reviewData) {
+            $review = Review::create($reviewData);
+            $review->insertReviewDetails($reviewData['details']);
+
+            return $review;
+        });
+       
+        return $review;
     }
 }
