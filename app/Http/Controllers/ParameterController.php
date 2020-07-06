@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreParameter;
+use App\Http\Requests\UpdateParameter;
 use App\Parameter;
 use Auth;
 use DB;
@@ -53,5 +54,11 @@ class ParameterController extends Controller
         });
 
         return $parameters;
+    }
+
+    public function update(UpdateParameter $request, Parameter $parameter)
+    {
+        $parameter->fill($request->validated());
+        $parameter->save();
     }
 }
