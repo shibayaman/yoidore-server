@@ -45,4 +45,13 @@ class Review extends Model
 
         ReviewDetail::insert($detailsWithReviewId);
     }
+
+    public function updateReviewDetails(array $review_details)
+    {
+        foreach ($review_details as $review_detail) {
+            $newReviewDetail = $this->review_detail->find($review_detail['id']);
+            $newReviewDetail->score = $review_detail['score'];
+            $newReviewDetail->save();
+        }
+    }
 }

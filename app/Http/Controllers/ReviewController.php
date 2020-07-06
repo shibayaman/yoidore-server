@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReview;
+use App\Http\Requests\UpdateReview;
 use App\Review;
 use App\ReviewDetail;
 use Auth;
@@ -52,6 +53,22 @@ class ReviewController extends Controller
             return $review;
         });
        
+        return $review;
+    }
+
+    public function update(UpdateReview $request, Review $review)
+    {
+        $validated = $request->validated();
+        $review->fill($validated);
+
+        // if($validated->hasFile('image')) {
+        //     save image
+        // }
+
+        if (isset($validated['details'])) {
+            $review->updateReviewDetails($validated['details']);
+        }
+
         return $review;
     }
 }
