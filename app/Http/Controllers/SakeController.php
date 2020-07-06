@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreSake;
 use App\Sake;
 
 class SakeController extends Controller
@@ -28,14 +29,9 @@ class SakeController extends Controller
         return $sake;
     }
 
-    public function store(Request $request)
+    public function store(StoreSake $request)
     {
-        $sakeData = $request->validate([
-            'category_id' => 'required|integer|exists:categories,id',
-            'name' => 'required|max:255|unique:sakes'
-        ]);
-
-        $sake = Sake::create($sakeData);
+        $sake = Sake::create($request->validated());
         return $sake;
     }
 }
